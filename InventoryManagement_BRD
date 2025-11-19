@@ -1,0 +1,56 @@
+Business Requirement Document (BRD)
+1. Executive Summary
+Objective
+The objective of the Inventory Management System V2 is to enhancing efficiency and accuracy involves reducing processing time, minimizing errors, and improving data consistency through automation and validation mechanisms of inventory tracking, sales order management, vendor categorization, and purchase order processing. The system aims to streamline inventory processes, improve data organization, maintain accurate records, and facilitate data-driven decision making.
+Business Need
+The business needs to address common problems faced in inventory management, such as miscalculation due to invisible cancelled supplier purchase orders, manual intervention for reprocessing orders, and the need for efficient vendor category management and bulk data uploading.
+Stakeholders
+•	Inventory Managers: Responsible for managing inventory, sales orders, and vendor information.
+•	Sales Managers: Responsible for managing sales orders and customer interactions.
+•	Warehouse Managers: Responsible for managing shipments and inventory across different branches.
+•	IT Team: Responsible for maintaining the software system and generating reports.
+•	Finance Team: Responsible for managing payment vouchers and processing payments.
+2. Scope of Work
+In-Scope
+•	Development of features for vendor category management, including deletion and bulk uploading.
+•	Enhancement of sales order management to allow editing of individual line items.
+•	Implementation of validation mechanisms to ensure data integrity and prevent deletion of categories in use.
+•	Addressing the issue of invisible cancelled supplier purchase orders in the inventory.
+Out-of-Scope
+•	Development of new modules unrelated to inventory management.
+•	Integration with external systems not specified in the requirements.
+•	Major redesign of the existing user interface.
+3. Key Requirements
+3.1 Functional Requirements
+Req Number	Priority	Description	Rationale	Impacted Stakeholders
+FR-001	High	Add the capability for users to delete vendor categories from the system. This should include validation to prevent the deletion of categories that are currently in use.	Prevent accidental deletion of active categories and ensure data integrity.	Inventory Managers, IT Team
+FR-002	High	Develop a feature to allow bulk uploading of vendor categories from a CSV file. This feature should include validation to ensure data integrity.	Facilitate efficient data entry and management of vendor categories.	Inventory Managers, IT Team
+FR-003	Medium	Modify the system to allow users to edit details of individual line items within sales orders.	Enhance flexibility and accuracy in sales order management.	Sales Managers, Inventory Managers
+FR-004	High	Address the issue where cancelled supplier purchase orders are not being visible in the inventory, causing miscalculation and manual intervention from suppliers.	Ensure accurate inventory tracking and reduce manual intervention.	Inventory Managers, Warehouse Managers
+
+4. Visualization and Detailed Requirements
+•	Add the capability for users to  A vendor category is considered 'in use' if it is associated with active vendors, ongoing transactions, or linked inventory items.: Enable authorized users to delete existing vendor categories from the WHMS. Integration with existing inventory management modules. Following the principles of CQRS, the deletion logic will be encapsulated within a dedicated command handler effectively separating the read and write concerns. Deletion interactions will be managed through a confirmation modal pop-up. Additionally, strict role-based access control and permission validation will be enforced using policy-based authorization to ensure that only authorized users can perform deletion operations.
+•	Develop a feature for allowing users to allow bulk uploading  of vendor categories from a file : To streamline the bulk upload of vendor categories in WHMS, the user interface should allow users to select files and the system will parse and validate each row individually before performing any insertion or update operations, making sure that there  is no duplicate vendor categories inserted. A dedicated component will be introduced to encapsulate the business logic for bulk operations. After processing, detailed feedback indicating the success or failure of each row should be returned to the frontend and presented to the user. Progress indicators and real-time error reporting will be  implemented to enhance usability 
+•	Modify the system to allow users to edit details of individual line items within sales orders : This will allow users to edit details directly from the interface , with real-time updates to order totals. Implementation details includes, Extending the domain model and related DTOs to support granular line item updates, Creating and handling new MediatR commands to encapsulate the updated logic. 
+•	Address the issue where cancelled supplier purchase orders are not being visible in the inventory :Invisible cancelled supplier purchase orders' refers to cancelled orders that are not properly updated or visible in the system, leading to miscalculations, they are not reflected in the inventory module. This omission causes discrepancies in stock levels and necessitates manual intervention to reconcile records. Ensure accurate inventory tracking and reduce manual intervention.
+5. Success Criteria
+Key Deliverables
+•	Functional vendor category management features.
+•	Enhanced sales order management capabilities.
+•	Accurate tracking of cancelled supplier purchase orders.
+•	Validation mechanisms for data integrity.
+Acceptance Criteria
+•	Users can delete vendor categories with validation to prevent deletion of categories in use.
+•	Users can bulk upload vendor categories from a CSV file with data integrity validation.
+•	Users can edit individual line items within sales orders.
+•	Cancelled supplier purchase orders are visible in the inventory and accurately tracked.
+6. Risks and Assumptions
+Risks
+•	Data Security: Risk of unauthorized access to vendor and inventory data.
+•	System Downtime: Risk of database or application server downtime affecting inventory tracking.
+•	Data Integrity: Risk of data corruption during bulk uploading of vendor categories.
+Assumptions
+•	Users have basic knowledge of operating the inventory management system.
+•	The system will be deployed in a secure environment with restricted access.
+•	Adequate resources are available for development and maintenance.
+
